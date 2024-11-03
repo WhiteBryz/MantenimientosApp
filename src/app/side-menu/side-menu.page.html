@@ -1,0 +1,27 @@
+<ion-split-pane contentId="main">
+  <ion-menu side="start" menuId="first" contentId="main">
+    <ion-header>
+      <ion-toolbar color="dark">
+        <ion-title>Menú</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <ion-list>
+        <ion-menu-toggle auto-hide="false" *ngFor="let page of pages; let i = index">
+          <ion-item (click)="ChangeIndexSelected(i)" routerDirection="root" [routerLink]="[page.url]" lines="none"
+            detail="false" [class.selected]="indexSelected === i">
+            <ion-icon slot="start" src="{{page.icon}}" [name]="page.icon"></ion-icon>
+            <ion-label>{{page.title}}</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        <ion-menu-toggle auto-hide="false">
+          <ion-item (click)="SingOut()" routerDirection="root" lines="none" detail="false">
+            <ion-icon slot="start" [name]="'exit-outline'"></ion-icon>
+            <ion-label>Salir</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+  <ion-router-outlet id="main"></ion-router-outlet>
+</ion-split-pane>
