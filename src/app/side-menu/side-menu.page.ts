@@ -13,42 +13,43 @@ export class SideMenuPage implements OnInit {
   pages = [
     {
       title: 'Inicio',
-      url: './Home',
-      icon: '/assets/icon/home.svg'
+      url: '/home',
+      icon: 'home-outline'      
     },
     {
       title: 'Hogar',
-      url: './clientes',
+      url: '/hogar',
       icon: 'hammer-outline'
     },
     {
       title: 'Vehículos',
-      url: './vehicles',
+      url: '/vehiculos',
       icon: 'car-sport-outline'
     },
     {
       title: 'Salud personal',
-      url: './selfcare',
+      url: '/salud-personal',
       icon: 'heart-circle-outline'
     },
     {
       title: 'Mascotas',
-      url: './pets',
-      icon: '/assets/icon/pets.svg'
+      url: '/mascotas',
+      icon: 'paw-outline'
     },
     {
       title: 'Estadísticas',
-      url: './home',
+      url: '/estadisticas',
       icon: 'bar-chart-outline'
     },
     {
       title: 'Configuración',
-      url: './config',
-      icon: '/assets/icon/config.svg'
+      url: '/configuracion',
+      icon: 'options-outline'
     },
   ];
 
-  constructor(public alertController: AlertController, public navCtrl: NavController) { }
+  constructor(public alertController: AlertController, public navCtrl: NavController) { 
+  }
 
   ChangeIndexSelected(i: number) {
     this.indexSelected = i;
@@ -78,6 +79,11 @@ export class SideMenuPage implements OnInit {
 
   ngOnInit() {
     return;
+  }
+
+  // Abre y cierra el menú lateral
+  toggleMenu() {
+
   }
 
 }

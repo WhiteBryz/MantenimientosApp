@@ -1,8 +1,13 @@
-<ion-split-pane contentId="main">
+<ion-split-pane contentId="main"> 
   <ion-menu side="start" menuId="first" contentId="main">
     <ion-header>
-      <ion-toolbar color="dark">
+      <ion-toolbar>
         <ion-title>Menú</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="toggleMenu()">
+            <ion-icon slot="icon-only" name="menu"></ion-icon>
+          </ion-button>
+        </ion-buttons>
       </ion-toolbar>
     </ion-header>
     <ion-content>
