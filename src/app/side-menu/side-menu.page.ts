@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController, NavController } from '@ionic/angular';
+import { AlertController, NavController, MenuController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 
@@ -54,7 +54,8 @@ export class SideMenuPage implements OnInit {
     public alertController: AlertController,
     public navCtrl: NavController,
     private router: Router,
-    private authService: AuthService) {
+    private authService: AuthService,
+    private menu: MenuController) {
 
   }
 
