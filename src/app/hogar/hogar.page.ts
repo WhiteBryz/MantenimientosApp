@@ -61,7 +61,7 @@ export class HogarPage {
         fechaHora: this.valorFechaHora,
         frecuencia: this.valorFrecuencia,
         estado: this.valorEstado,
-        notas: this.valorNotas,
+        notas: this.valorNotas || 'Sin notas',
         archivos: this.archivos,
       });
 
@@ -80,7 +80,7 @@ export class HogarPage {
         fechaHora: this.valorFechaHora,
         frecuencia: this.valorFrecuencia,
         estado: this.valorEstado,
-        notas: this.valorNotas,
+        notas: this.valorNotas || 'Sin notas',
         archivos: this.archivos,
       };
 
