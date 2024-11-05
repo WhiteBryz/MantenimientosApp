@@ -7,14 +7,16 @@ import { IonicModule } from '@ionic/angular';
 import { VehiculosPageRoutingModule } from './vehiculos-routing.module';
 
 import { VehiculosPage } from './vehiculos.page';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    VehiculosPageRoutingModule
+    VehiculosPageRoutingModule,
+    SharedModule
   ],
   declarations: [VehiculosPage]
 })
-export class VehiculosPageModule {}
+export class VehiculosPageModule { }
