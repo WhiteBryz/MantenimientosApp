@@ -10,31 +10,74 @@
     </ion-card-header>
     <ion-card-content>
       <!-- Formulario de autenticación -->
-      <form (submit)="login()">
+      <form (submit)="onLogin()" [formGroup]="loginForm">
         <!-- Campo de usuario -->
         <ion-item>
-          <ion-label position="floating">Usuario</ion-label>
-          <ion-input type="text" [(ngModel)]="txtUserName" name="txtUserName" required></ion-input>
-        </ion-item>
+      <ion-label position="floating">Usuario</ion-label>
+      <ion-input formControlName="username" type="text"></ion-input>
+    </ion-item>
         <!-- Campo de contraseña -->
         <ion-item>
           <ion-label position="floating">Contraseña</ion-label>
-          <ion-input type="password" [(ngModel)]="txtPassword" name="txtPassword" required></ion-input>
+          <ion-input formControlName="password" type="password"></ion-input>
         </ion-item>
         <!-- Recordar credenciales -->
         <ion-item lines="none">
-          <ion-label>Recordar credenciales</ion-label>
-          <ion-checkbox [(ngModel)]="cbRememberMe" name="cbRememberMe" slot="start"></ion-checkbox>
+          <ion-label>Mantener sesión iniciada</ion-label>
+          <ion-checkbox formControlName="rememberMe" slot="start"></ion-checkbox>
         </ion-item>
         <!-- Botón para iniciar sesión -->
-        <ion-button expand="block" type="submit">Iniciar sesión</ion-button>
+        <ion-button expand="block" type="submit" [disabled]="!loginForm.valid">Iniciar Sesión</ion-button>
       </form>
       <!-- Enlace para registrarse -->
       <div class="ion-text-center">
         <ion-text>
-          ¿No tienes cuenta? <a href="/registrar">Regístrate aquí</a>
+          ¿No tienes cuenta? <a (click)="openRegisterModal()">Regístrate aquí</a>
         </ion-text>
       </div>
     </ion-card-content>
   </ion-card>
+  <ion-modal [isOpen]="isRegisterModalOpen" (didDismiss)="closeRegisterModal()">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Registro de Usuario</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="closeRegisterModal()">Cerrar</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content class="ion-padding">
+        <form (submit)="onRegister()" [formGroup]="registerForm">
+          <ion-item>
+            <ion-label position="floating">Nombre Completo</ion-label>
+            <ion-input formControlName="fullName" type="text"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Usuario</ion-label>
+            <ion-input formControlName="username" type="text"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Contraseña</ion-label>
+            <ion-input formControlName="password" type="password"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Nombre de la Tienda</ion-label>
+            <ion-input formControlName="storeName" type="text"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">URL de Foto de la Tienda</ion-label>
+            <ion-input formControlName="storePhotoUrl" type="url"></ion-input>
+          </ion-item>
+
+          <ion-button expand="full" type="submit" [disabled]="!registerForm.valid">Registrar</ion-button>
+        </form>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
 </ion-content>

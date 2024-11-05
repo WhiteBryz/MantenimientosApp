@@ -1,20 +1,26 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
+  {
+    path: 'login',
+    loadChildren: () => import('./login/login.module').then(m => m.LoginPageModule)
+  },
+  {
+    path: 'side-menu',
+    loadChildren: () => import('./side-menu/side-menu.module').then(m => m.SideMenuPageModule),
+    canActivate: [AuthGuard]
+  },
   {
     path: '',
     redirectTo: 'login',
     pathMatch: 'full'
   },
   {
-    path: 'side-menu',
-    loadChildren: () => import('./side-menu/side-menu.module').then(m => m.SideMenuPageModule)
-  },
-  {
-    path: 'login',
-    loadChildren: () => import('./login/login.module').then(m => m.LoginPageModule)
-  },
+    path: '**',
+    redirectTo: '/login'
+  }
 ];
 
 @NgModule({

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController, NavController } from '@ionic/angular';
+import { Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-side-menu',
@@ -48,7 +50,12 @@ export class SideMenuPage implements OnInit {
     },
   ];
 
-  constructor(public alertController: AlertController, public navCtrl: NavController) {
+  constructor(
+    public alertController: AlertController,
+    public navCtrl: NavController,
+    private router: Router,
+    private authService: AuthService) {
+    
   }
 
   ChangeIndexSelected(i: number) {
@@ -68,8 +75,8 @@ export class SideMenuPage implements OnInit {
         {
           text: 'Si deseo salir',
           handler: () => {
-            localStorage.removeItem("usuarioActual");
-            this.navCtrl.navigateRoot('login');
+              this.authService.logout();
+              this.router.navigate(['/login']);
           }
         }
       ]
