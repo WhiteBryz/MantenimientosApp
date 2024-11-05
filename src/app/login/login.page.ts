@@ -13,13 +13,12 @@ export class LoginPage implements OnInit {
   cbRememberMe: boolean = false;
   showPassword: boolean = false;
 
+  // Datos pendientes de confirmar
   usuarios: {
     id: number,
     fullName: string,
     userName: string,
-    password: string,
-    storeName: string,
-    urlStore: string
+    password: string
   }[] = [];
 
   constructor(public navCtrl: NavController) {
