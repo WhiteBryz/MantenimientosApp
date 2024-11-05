@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController, NavController } from '@ionic/angular';
+import { AlertController, NavController, MenuController } from '@ionic/angular';
 
 @Component({
   selector: 'app-side-menu',
@@ -48,7 +48,7 @@ export class SideMenuPage implements OnInit {
     },
   ];
 
-  constructor(public alertController: AlertController, public navCtrl: NavController) { 
+  constructor(public alertController: AlertController, public navCtrl: NavController, private menu: MenuController) { 
   }
 
   ChangeIndexSelected(i: number) {
@@ -83,6 +83,7 @@ export class SideMenuPage implements OnInit {
 
   // Abre y cierra el menú lateral
   toggleMenu() {
+    this.menu.toggle();
 
   }
 

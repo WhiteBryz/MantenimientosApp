@@ -1,7 +1,9 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar color="dark">
     <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
+      <ion-menu-button>
+        
+      </ion-menu-button>
     </ion-buttons>
     <ion-title>
       Hogar
@@ -10,5 +12,83 @@
 </ion-header>
 
 <ion-content class="ion-padding">
+  <div class="form-container">
+    <ion-title class="titulo">Registro de tareas</ion-title>
 
+    <ion-item class="form-item">
+      <ion-label position="floating">Descripción</ion-label>
+      <ion-input [(ngModel)]="valorDescripcion"></ion-input>
+    </ion-item>
+
+    <ion-item class="form-item">
+      <ion-label position="floating">Fecha y hora</ion-label>
+      <ion-input [(ngModel)]="valorFechaHora" type="datetime-local"></ion-input> 
+    </ion-item>
+
+    <ion-item class="form-item">
+      <ion-label position="floating">Frecuencia</ion-label>
+      <ion-select [(ngModel)]="valorFrecuencia">
+        <ion-select-option value="Diaria">Diaria</ion-select-option>
+        <ion-select-option value="Semanal">Semanal</ion-select-option>
+        <ion-select-option value="Mensual">Mensual</ion-select-option>
+        <ion-select-option value="Anual">Anual</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item class="form-item">
+      <ion-label position="floating">Estado de la tarea</ion-label>
+      <ion-select [(ngModel)]="valorEstado">
+        <ion-select-option value="Pendiente">Pendiente</ion-select-option>
+        <ion-select-option value="En progreso">En Progreso</ion-select-option>
+        <ion-select-option value="Completada">Completada</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item class="form-item">
+      <ion-label position="floating">Notas o comentarios</ion-label>
+      <ion-textarea [(ngModel)]="valorNotas" placeholder="Opcional"></ion-textarea>
+    </ion-item>
+
+    <ion-item class="form-item">
+      <ion-label>Imágenes o documentos</ion-label>
+      <input type="file" (change)="onFileSelected($event)">
+    </ion-item>
+
+    <div class="button-container-form">
+      <ion-button *ngIf="mostrarBoton" class="btnAgregar" color="dark" expand="block" (click)="Agregar()">Agregar Tarea</ion-button>
+      
+      <ion-button *ngIf="actualizarBoton" class="btnActualizar" color="dark" expand="block" (click)="Actualizar()">Actualizar Tarea</ion-button>
+      <ion-button *ngIf="actualizarBoton" class="btnCancelar" color="danger" expand="block" (click)="Cancelar()">Cancelar</ion-button>
+    </div>
+  </div>
+
+  <ion-list>
+    <ion-item *ngFor="let tarea of tareas; let i = index">
+      <ion-card>
+       <ion-card-header>
+         <ion-card-title>{{tarea.descripcion}}</ion-card-title>
+         <ion-card-subtitle>{{tarea.fechaHora}}</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          <p>Frecuencia: {{tarea.frecuencia}}</p>
+          <p>Estado: {{tarea.estado}}</p>
+          <p>Notas: {{tarea.notas}}</p>
+         
+         <div *ngFor="let archivo of tarea.archivos">
+            <img [src]="archivo" alt="Archivo" style="width: 200px; height: 200px;" />
+        </div>
+        <div *ngFor="let archivo of tarea.archivos">
+            <a [href]="archivo" download="archivo">Descargar archivo</a>
+        </div>
+
+        
+
+          <div class="button-container-card">
+          <ion-button class="btnEditar" fill="outline" color="secondary" (click)="Editar(i)">Editar</ion-button>
+          <ion-button class="btnEliminar" fill="outline" color="danger" (click)="Eliminar(i)">Eliminar</ion-button>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </ion-item>
+  </ion-list>
 </ion-content>
