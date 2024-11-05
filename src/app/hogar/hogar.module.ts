@@ -7,14 +7,16 @@ import { IonicModule } from '@ionic/angular';
 import { HogarPageRoutingModule } from './hogar-routing.module';
 
 import { HogarPage } from './hogar.page';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    HogarPageRoutingModule
+    HogarPageRoutingModule,
+    SharedModule
   ],
   declarations: [HogarPage]
 })
-export class HogarPageModule {}
+export class HogarPageModule { }

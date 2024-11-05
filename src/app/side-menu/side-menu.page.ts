@@ -13,42 +13,42 @@ export class SideMenuPage implements OnInit {
   pages = [
     {
       title: 'Inicio',
-      url: '/home',
-      icon: 'home-outline'      
+      url: './home',
+      icon: 'home-outline'
     },
     {
       title: 'Hogar',
-      url: '/hogar',
+      url: './hogar',
       icon: 'hammer-outline'
     },
     {
       title: 'Vehículos',
-      url: '/vehiculos',
+      url: './vehiculos',
       icon: 'car-sport-outline'
     },
     {
       title: 'Salud personal',
-      url: '/salud-personal',
+      url: './salud-personal',
       icon: 'heart-circle-outline'
     },
     {
       title: 'Mascotas',
-      url: '/mascotas',
+      url: './mascotas',
       icon: 'paw-outline'
     },
     {
       title: 'Estadísticas',
-      url: '/estadisticas',
+      url: './estadisticas',
       icon: 'bar-chart-outline'
     },
     {
       title: 'Configuración',
-      url: '/configuracion',
+      url: './configuracion',
       icon: 'options-outline'
     },
   ];
 
-  constructor(public alertController: AlertController, public navCtrl: NavController) { 
+  constructor(public alertController: AlertController, public navCtrl: NavController) {
   }
 
   ChangeIndexSelected(i: number) {
