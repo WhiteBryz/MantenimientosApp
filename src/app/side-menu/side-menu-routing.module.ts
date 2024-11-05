@@ -9,9 +9,33 @@ const routes: Routes = [
     component: SideMenuPage,
     children: [
       {
-        path: 'Home',
+        path: 'home',
         loadChildren: () => import('../home/home.module').then(m => m.HomePageModule)
-      }
+      },
+      {
+        path: 'vehiculos',
+        loadChildren: () => import('../vehiculos/vehiculos.module').then(m => m.VehiculosPageModule)
+      },
+      {
+        path: 'salud-personal',
+        loadChildren: () => import('../salud-personal/salud-personal.module').then(m => m.SaludPersonalPageModule)
+      },
+      {
+        path: 'mascotas',
+        loadChildren: () => import('../mascotas/mascotas.module').then(m => m.MascotasPageModule)
+      },
+      {
+        path: 'estadisticas',
+        loadChildren: () => import('../estadisticas/estadisticas.module').then(m => m.EstadisticasPageModule)
+      },
+      {
+        path: 'configuracion',
+        loadChildren: () => import('../configuracion/configuracion.module').then(m => m.ConfiguracionPageModule)
+      },
+      {
+        path: 'hogar',
+        loadChildren: () => import('../hogar/hogar.module').then(m => m.HogarPageModule)
+      },
     ]
   }
 ];

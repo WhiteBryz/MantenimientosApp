@@ -7,14 +7,16 @@ import { IonicModule } from '@ionic/angular';
 import { MascotasPageRoutingModule } from './mascotas-routing.module';
 
 import { MascotasPage } from './mascotas.page';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    MascotasPageRoutingModule
+    MascotasPageRoutingModule,
+    SharedModule
   ],
   declarations: [MascotasPage]
 })
-export class MascotasPageModule {}
+export class MascotasPageModule { }

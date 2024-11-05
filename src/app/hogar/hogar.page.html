@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <ion-header>
   <ion-toolbar color="dark">
     <ion-buttons slot="start">
@@ -10,6 +11,9 @@
     </ion-title>
   </ion-toolbar>
 </ion-header>
+=======
+<app-custom-header pageTitle="Hogar"></app-custom-header>
+>>>>>>> c538329c204bf0ee9fb5331e2fab629267dffa92
 
 <ion-content class="ion-padding">
   <div class="form-container">
@@ -73,15 +77,13 @@
           <p>Frecuencia: {{tarea.frecuencia}}</p>
           <p>Estado: {{tarea.estado}}</p>
           <p>Notas: {{tarea.notas}}</p>
-         
-         <div *ngFor="let archivo of tarea.archivos">
+          
+          <div *ngFor="let archivo of tarea.archivos">
             <img [src]="archivo" alt="Archivo" style="width: 200px; height: 200px;" />
-        </div>
-        <div *ngFor="let archivo of tarea.archivos">
+          </div>
+          <div *ngFor="let archivo of tarea.archivos">
             <a [href]="archivo" download="archivo">Descargar archivo</a>
-        </div>
-
-        
+          </div>
 
           <div class="button-container-card">
           <ion-button class="btnEditar" fill="outline" color="secondary" (click)="Editar(i)">Editar</ion-button>
