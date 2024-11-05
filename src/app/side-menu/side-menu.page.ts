@@ -55,7 +55,7 @@ export class SideMenuPage implements OnInit {
     public navCtrl: NavController,
     private router: Router,
     private authService: AuthService) {
-    
+
   }
 
   ChangeIndexSelected(i: number) {
@@ -90,6 +90,7 @@ export class SideMenuPage implements OnInit {
 
   // Abre y cierra el menú lateral
   toggleMenu() {
+    this.menu.toggle();
 
   }
 
