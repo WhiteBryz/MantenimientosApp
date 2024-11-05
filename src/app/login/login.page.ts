@@ -21,7 +21,7 @@ export class LoginPage {
     private toastController: ToastController
   ) {
     if (this.authService.isAuthenticated()) {
-      this.navCtrl.navigateRoot('/side-menu');
+      this.navCtrl.navigateRoot('/side-menu/home');
     }
 
     this.loginForm = this.formBuilder.group({
