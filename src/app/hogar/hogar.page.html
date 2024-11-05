@@ -10,9 +10,8 @@
         </ion-card-header>
         <ion-card-content>
           <p>Frecuencia: {{tarea.frecuencia}}</p>
-          <p>Estado: {{tarea.estado}}</p>
+          <p>Estado: {{tarea.estado}}</p><br>
           <p>Notas: {{tarea.notas}}</p>
-
           <div class="document-container" *ngFor="let archivo of tarea.archivos">
             <img [src]="archivo" alt="Archivo" style="width: 200px; height: 200px;" />
           </div>
