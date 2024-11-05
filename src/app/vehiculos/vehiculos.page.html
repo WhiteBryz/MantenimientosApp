@@ -1,4 +1,4 @@
-<app-custom-header pageTitle="Hogar"></app-custom-header>
+<app-custom-header pageTitle="Vehículos"></app-custom-header>
 
 <ion-content class="ion-padding">
   <ion-list *ngIf="mantenimientos.length > 0; else noTasks">
@@ -9,7 +9,7 @@
           <ion-card-subtitle>{{mantenimiento.fechaHora}}</ion-card-subtitle>
         </ion-card-header>
         <ion-card-content>
-          <p>Próxima fecha recomendanda: {{mantenimiento.fechaProx}}</p>
+          <p>Próxima fecha recomendada: {{mantenimiento.fechaProx}}</p>
           <p>Kilometraje actual: {{mantenimiento.kilometraje}} km</p>
           <p>Costo: $ {{mantenimiento.costo}}</p><br>
           <p>Notas: {{mantenimiento.notas}}</p>
