@@ -4,12 +4,16 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '/side-menu/home',
+    redirectTo: 'login',
     pathMatch: 'full'
   },
   {
     path: 'side-menu',
     loadChildren: () => import('./side-menu/side-menu.module').then(m => m.SideMenuPageModule)
+  },
+  {
+    path: 'login',
+    loadChildren: () => import('./login/login.module').then(m => m.LoginPageModule)
   },
 ];
 

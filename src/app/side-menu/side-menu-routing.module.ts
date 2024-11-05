@@ -33,10 +33,6 @@ const routes: Routes = [
         loadChildren: () => import('../configuracion/configuracion.module').then(m => m.ConfiguracionPageModule)
       },
       {
-        path: 'login',
-        loadChildren: () => import('../login/login.module').then(m => m.LoginPageModule)
-      },
-      {
         path: 'hogar',
         loadChildren: () => import('../hogar/hogar.module').then(m => m.HogarPageModule)
       },
