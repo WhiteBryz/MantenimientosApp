@@ -13,7 +13,7 @@
           <p>Estado: {{tarea.estado}}</p>
           <p>Notas: {{tarea.notas}}</p>
 
-          <div *ngFor="let archivo of tarea.archivos">
+          <div class="document-container" *ngFor="let archivo of tarea.archivos">
             <img [src]="archivo" alt="Archivo" style="width: 200px; height: 200px;" />
           </div>
           <div *ngFor="let archivo of tarea.archivos">
@@ -21,8 +21,12 @@
           </div>
 
           <div class="button-container-card">
-            <ion-button class="btnEditar" fill="outline" color="secondary" (click)="Editar(i)">Editar</ion-button>
-            <ion-button class="btnEliminar" fill="outline" color="danger" (click)="Eliminar(i)">Eliminar</ion-button>
+            <ion-button class="btnEditar" color="secondary" shape="round" (click)="Editar(i)">Editar
+              <ion-icon name="create-outline" slot="start"></ion-icon>
+            </ion-button>
+            <ion-button class="btnEliminar" color="danger" shape="round" (click)="Eliminar(i)">Eliminar
+              <ion-icon name="trash-outline" slot="start"></ion-icon>
+            </ion-button>
           </div>
         </ion-card-content>
       </ion-card>
@@ -35,8 +39,8 @@
     </ion-text>
   </ng-template>
 
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button (click)="openModal()">
+  <ion-fab vertical="bottom" horizontal="end">
+    <ion-fab-button color="secondary" (click)="openModal()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>
@@ -45,7 +49,7 @@
     <ng-template>
       <ion-header>
         <ion-toolbar>
-          <ion-title>{{ actualizarBoton ? 'Actualizar Tarea' : 'Agregar Tarea' }}</ion-title>
+          <ion-title>{{ actualizarBoton ? 'Actualizar' : 'Agregar' }}</ion-title>
           <ion-buttons slot="end">
             <ion-button (click)="closeModal()">Cerrar</ion-button>
           </ion-buttons>
@@ -95,10 +99,10 @@
         </ion-item>
 
         <div class="button-container-form">
-          <ion-button color="dark" expand="block" (click)="actualizarBoton ? Actualizar() : Agregar()">
-            {{ actualizarBoton ? 'Actualizar Tarea' : 'Agregar Tarea' }}
+          <ion-button color="dark" shape="round" (click)="actualizarBoton ? Actualizar() : Agregar()">
+            {{ actualizarBoton ? 'Actualizar' : 'Agregar' }}
           </ion-button>
-          <ion-button *ngIf="actualizarBoton" color="danger" expand="block" (click)="Cancelar()">Cancelar</ion-button>
+          <ion-button *ngIf="actualizarBoton" color="danger" shape="round" (click)="Cancelar()">Cancelar</ion-button>
         </div>
       </ion-content>
     </ng-template>
