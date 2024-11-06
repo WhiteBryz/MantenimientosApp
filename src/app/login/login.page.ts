@@ -33,9 +33,7 @@ export class LoginPage {
     this.registerForm = this.formBuilder.group({
       fullName: ['', Validators.required],
       username: ['', Validators.required],
-      password: ['', Validators.required],
-      storeName: ['', Validators.required],
-      storePhotoUrl: ['', Validators.required],
+      password: ['', Validators.required]
     });
   }
 
