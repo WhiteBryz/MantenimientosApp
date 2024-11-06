@@ -55,7 +55,7 @@ export class LoginPage {
       }
     }
   }
-
+  
   async onRegister() {
     if (this.registerForm.valid) {
       if (this.authService.register(this.registerForm.value)) {
