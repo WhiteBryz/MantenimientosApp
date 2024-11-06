@@ -20,6 +20,14 @@ const routes: Routes = [
   {
     path: '**',
     redirectTo: '/login'
+  },
+  {
+    path: 'seguros-salud',
+    loadChildren: () => import('./seguros-salud/seguros-salud.module').then( m => m.SegurosSaludPageModule)
+  },
+  {
+    path: 'estudios-medicos',
+    loadChildren: () => import('./estudios-medicos/estudios-medicos.module').then( m => m.EstudiosMedicosPageModule)
   }
 ];
 

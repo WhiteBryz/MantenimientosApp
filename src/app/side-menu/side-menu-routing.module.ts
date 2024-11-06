@@ -17,8 +17,12 @@ const routes: Routes = [
         loadChildren: () => import('../vehiculos/vehiculos.module').then(m => m.VehiculosPageModule)
       },
       {
-        path: 'salud-personal',
-        loadChildren: () => import('../salud-personal/salud-personal.module').then(m => m.SaludPersonalPageModule)
+        path: 'seguros-salud',
+        loadChildren: () => import('../seguros-salud/seguros-salud.module').then(m => m.SegurosSaludPageModule)
+      },
+      {
+        path: 'estudios-medicos',
+        loadChildren: () => import('../estudios-medicos/estudios-medicos.module').then(m => m.EstudiosMedicosPageModule)
       },
       {
         path: 'mascotas',

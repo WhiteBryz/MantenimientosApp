@@ -11,6 +11,7 @@ import { AuthService } from '../services/auth.service';
 export class SideMenuPage implements OnInit {
 
   indexSelected: number = 0;
+  subMenuOpen: { [key: number]: boolean } = {};
 
   pages = [
     {
@@ -30,8 +31,20 @@ export class SideMenuPage implements OnInit {
     },
     {
       title: 'Salud personal',
-      url: './salud-personal',
-      icon: 'heart-circle-outline'
+      url: './',
+      icon: 'heart-circle-outline',
+      childs: [
+        {
+          title: 'Seguros de Salud',
+          url: './seguros-salud',
+          icon: ''
+        },
+        {
+          title: 'Estudios Médicos',
+          url: './estudios-medicos',
+          icon: ''
+        }
+      ]
     },
     {
       title: 'Mascotas',
@@ -63,6 +76,14 @@ export class SideMenuPage implements OnInit {
     this.indexSelected = i;
   }
 
+  toggleSubmenu(index: number, event: Event) {
+    console.log('Before toggle:', this.subMenuOpen);
+    // Use an optional chaining assignment to initialize if undefined
+    this.subMenuOpen[index] = !this.subMenuOpen[index] || false;
+    console.log('After toggle:', this.subMenuOpen);
+  }
+  
+
   async SingOut() {
     const alert = await this.alertController.create({
       header: 'Salir',
@@ -92,7 +113,6 @@ export class SideMenuPage implements OnInit {
   // Abre y cierra el menú lateral
   toggleMenu() {
     this.menu.toggle();
-
   }
 
 }
