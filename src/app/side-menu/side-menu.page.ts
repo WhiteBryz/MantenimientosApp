@@ -76,11 +76,9 @@ export class SideMenuPage implements OnInit {
     this.indexSelected = i;
   }
 
-  toggleSubmenu(index: number, event: Event) {
-    console.log('Before toggle:', this.subMenuOpen);
+  toggleSubmenu(index: number) {
     // Use an optional chaining assignment to initialize if undefined
     this.subMenuOpen[index] = !this.subMenuOpen[index] || false;
-    console.log('After toggle:', this.subMenuOpen);
   }
   
 

@@ -12,28 +12,45 @@
     </ion-header>
     <ion-content>
       <ion-list>
-        <ion-menu-toggle auto-hide="false" *ngFor="let page of pages; let i = index">
-          <ion-item (click)="ChangeIndexSelected(i)" routerDirection="root" [routerLink]="[page.url]" lines="none" detail="false" [class.selected]="indexSelected === i">
-            <ion-icon slot="start" [name]="page.icon"></ion-icon>
-            <ion-label>{{ page.title }}</ion-label>
-            <ion-icon *ngIf="page.childs?.length" 
-                      slot="end" 
-                      name="chevron-down-outline" 
-                      (click)="toggleSubmenu(i, $event)">
-            </ion-icon>
-          </ion-item>
-
-          <ion-list *ngIf="subMenuOpen[i]" class="submenu">
-            <ion-item *ngFor="let child of page.childs" 
-                      (click)="ChangeIndexSelected(i)" 
-                      routerDirection="root" 
-                      [routerLink]="[child.url]" 
-                      lines="none" 
-                      detail="false">
-              <ion-label>{{ child.title }}</ion-label>
+        <ng-container *ngFor="let page of pages; let i = index">
+          <ion-menu-toggle auto-hide="false" *ngIf="!page.childs?.length">
+            <ion-item 
+              (click)="ChangeIndexSelected(i)" 
+              routerDirection="root" 
+              [routerLink]="[page.url]" 
+              lines="none" 
+              detail="false" 
+              [class.selected]="indexSelected === i"
+            >
+              <ion-icon slot="start" [name]="page.icon"></ion-icon>
+              <ion-label>{{ page.title }}</ion-label>
             </ion-item>
-          </ion-list>
-        </ion-menu-toggle>
+          </ion-menu-toggle>
+
+          <ng-container *ngIf="page.childs?.length">
+            <ion-item 
+              (click)="toggleSubmenu(i)" 
+              lines="none" 
+              detail="false" 
+              [class.selected]="indexSelected === i"
+            >
+              <ion-icon slot="start" [name]="page.icon"></ion-icon>
+              <ion-label>{{ page.title }}</ion-label>
+              <ion-icon slot="end" name="chevron-down-outline"></ion-icon>
+            </ion-item>
+      
+            <ion-list *ngIf="subMenuOpen[i]" class="submenu">
+              <ion-item *ngFor="let child of page.childs" 
+                        (click)="ChangeIndexSelected(i)" 
+                        routerDirection="root" 
+                        [routerLink]="[child.url]" 
+                        lines="none" 
+                        detail="false">
+                <ion-label>{{ child.title }}</ion-label>
+              </ion-item>
+            </ion-list>
+          </ng-container>
+        </ng-container>
         <ion-menu-toggle auto-hide="false">
           <ion-item (click)="SingOut()" routerDirection="root" lines="none" detail="false">
             <ion-icon slot="start" [name]="'exit-outline'"></ion-icon>
