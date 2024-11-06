@@ -54,19 +54,56 @@ export class SegurosSaludPage {
   }
 
   Agregar(){
-
+    if(this.valorTipoSeguro && this.valorFechaInicio && this.valorFechaVenc && this.valorProveedor && this.valorAlerta){
+      this.seguros.push({
+        id: Date.now(),
+        tipoSeguro: this.valorTipoSeguro,
+        fechaInicio: this.valorFechaInicio,
+        fechaVencimiento: this.valorFechaVenc,
+        proveedor: this.valorProveedor,
+        notas: this.valorNotas || 'Sin notas',
+        alerta: this.valorAlerta,
+      });
+      localStorage.setItem('seguros', JSON.stringify(this.seguros));
+      this.closeModal();
+      }
+      else{
+        alert('Por favor, completa los campos requeridos');
+      }
   }
 
   Actualizar(){
-
-  }
-
+    if (this.valorTipoSeguro && this.valorFechaInicio && this.valorFechaVenc && this.valorProveedor && this.valorAlerta) {
+      this.seguros[this.posicion] = {
+        id: Date.now(),
+        tipoSeguro: this.valorTipoSeguro,
+        fechaInicio: this.valorFechaInicio,
+        fechaVencimiento: this.valorFechaVenc,
+        proveedor: this.valorProveedor,
+        notas: this.valorNotas || 'Sin notas',
+        alerta: this.valorAlerta,
+      };
+      localStorage.setItem('seguros', JSON.stringify(this.seguros));
+      this.closeModal();
+      }
+   }
+  
   Cancelar(){
     this.closeModal();
   }
 
   Editar(i:number){
+    this.posicion = i;
+    this.valorTipoSeguro = this.seguros[i].tipoSeguro;
+    this.valorFechaInicio = this.seguros[i].fechaInicio;
+    this.valorFechaVenc = this.seguros[i].fechaVencimiento;
+    this.valorProveedor = this.seguros[i].proveedor;
+    this.valorNotas = this.seguros[i].notas;
+    this.valorAlerta = this.seguros[i].alerta;
 
+    this.mostrarBoton = false;
+    this.actualizarBoton = true;
+    this.openModal();
   }
 
   resetForm() {
@@ -77,5 +114,4 @@ export class SegurosSaludPage {
     this.valorNotas = '';
     this.valorAlerta = false;
   }
-
 }
