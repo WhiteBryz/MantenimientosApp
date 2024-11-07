@@ -4,9 +4,9 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { SegurosSaludPageRoutingModule } from './seguros-salud-routing.module';
+import { InfoMascotasPageRoutingModule } from './info-mascotas-routing.module';
 
-import { SegurosSaludPage } from './seguros-salud.page';
+import { InfoMascotasPage } from './info-mascotas.page';
 import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
@@ -14,9 +14,9 @@ import { SharedModule } from '../shared/shared.module';
     CommonModule,
     FormsModule,
     IonicModule,
-    SegurosSaludPageRoutingModule,
+    InfoMascotasPageRoutingModule,
     SharedModule
   ],
-  declarations: [SegurosSaludPage]
+  declarations: [InfoMascotasPage]
 })
-export class SegurosSaludPageModule {}
+export class InfoMascotasPageModule {}

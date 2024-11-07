@@ -49,7 +49,24 @@ export class SideMenuPage implements OnInit {
     {
       title: 'Mascotas',
       url: './mascotas',
-      icon: 'paw-outline'
+      icon: 'paw-outline',
+      childs: [
+        {
+          title: 'Información general',
+          url: './info-mascotas',
+          icon: ''
+        },
+        {
+          title: 'Vacunas',
+          url: './vacunas',
+          icon: ''
+        },
+        {
+        title: 'Citas al veterinario',
+        url: './citas-vet',
+        icon: ''
+        }
+      ]
     },
     {
       title: 'Estadísticas',

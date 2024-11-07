@@ -1,15 +1,15 @@
-<app-custom-header pageTitle="Estudios médicos"></app-custom-header>
+<app-custom-header pageTitle="Información de mascotas"></app-custom-header>
 
 <ion-content class="ion-padding">
-  <ion-list *ngIf="estudios.length > 0; else noTasks">
-    <ion-item *ngFor="let estudio of estudios; let i = index">
+  <ion-list *ngIf="info.length > 0; else noTasks">
+    <ion-item *ngFor="let info of info; let i = index">
       <ion-card>
         <ion-card-header>
-          <ion-card-title>{{estudio.tipo}}</ion-card-title>
-          <ion-card-subtitle>{{estudio.fecha}}</ion-card-subtitle>
+          <ion-card-title>{{info.nombre}}</ion-card-title>
+          <ion-card-subtitle>{{info.tipo}}</ion-card-subtitle>
         </ion-card-header>
         <ion-card-content>
-          <p>Próxima cita: {{estudio.fechaProximaCita || "No Agendada"}}</p>
+          <p>Raza: {{info.raza}}</p>
           <div class="button-container-card">
             <ion-button class="btnEditar" fill="outline" color="secondary" shape="round" (click)="Editar(i)">Editar
               <ion-icon name="create-outline" slot="start"></ion-icon>
@@ -25,7 +25,7 @@
 
   <ng-template #noTasks>
     <ion-text color="medium" class="ion-text-center">
-      <p>No hay estudios médicos registrados.</p>
+      <p>No hay información registrada.</p>
     </ion-text>
   </ng-template>
 
@@ -47,40 +47,28 @@
       </ion-header>
 
       <ion-content class="ion-padding">
-        <ion-title class="titulo">Registro de estudios médicos</ion-title>
+        <ion-title class="titulo">Registro de información de mascotas</ion-title>
 
         <ion-item class="form-item">
-          <ion-label position="floating">Tipo de Estudio</ion-label>
-          <ion-select [(ngModel)]="valorTipo" interface="popover" placeholder="Seleccionar...">
-            <ion-select-option *ngFor="let tipoEstudio of tipoEstudios" [value]="tipoEstudio">
-              {{ tipoEstudio }}
-            </ion-select-option>
+          <ion-label position="floating">Nombre</ion-label>
+          <ion-input type="text" [(ngModel)]="valorNombre"></ion-input>
+        </ion-item>
+
+        <ion-item class="form-item">
+          <ion-label>Tipo</ion-label>
+          <ion-select [(ngModel)]="valorTipo">
+            <ion-select-option value="Perro">Perro</ion-select-option>
+            <ion-select-option value="Gato">Gato</ion-select-option>
+            <ion-select-option value="Ave">Ave</ion-select-option>
+            <ion-select-option value="Reptil">Reptil</ion-select-option>
+            <ion-select-option value="Otro">Otro</ion-select-option>
           </ion-select>
         </ion-item>
 
         <ion-item class="form-item">
-          <ion-label position="floating">Fecha y hora</ion-label>
-          <ion-input [(ngModel)]="valorFecha" type="datetime-local"></ion-input>
+          <ion-label position="floating">Raza</ion-label>
+          <ion-input type="text" [(ngModel)]="valorRaza"></ion-input>
         </ion-item>
-
-        <ion-item class="form-item">
-            <ion-label position="floating">Próxima cita</ion-label>
-            <ion-input [(ngModel)]="valorFechaProximaCita" type="datetime-local"></ion-input>
-          </ion-item>
-
-        <ion-item class="form-item">
-            <ion-label>¿Programar recordatorio de vencimiento para seguros o revisiones técnicas?</ion-label>
-            <ion-radio-group [(ngModel)]="valorAlerta">
-              <ion-item lines="none">
-                <ion-label>No</ion-label>
-                <ion-radio slot="start" value="No"></ion-radio>
-              </ion-item>
-              <ion-item lines="none">
-                <ion-label>Sí</ion-label>
-                <ion-radio slot="start" value="Si"></ion-radio>
-              </ion-item>
-            </ion-radio-group>
-          </ion-item>          
 
         <div class="button-container-form">
           <ion-button color="dark" shape="round" (click)="actualizarBoton ? Actualizar() : Agregar()">

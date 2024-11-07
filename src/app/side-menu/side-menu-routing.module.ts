@@ -29,6 +29,18 @@ const routes: Routes = [
         loadChildren: () => import('../mascotas/mascotas.module').then(m => m.MascotasPageModule)
       },
       {
+        path: 'info-mascotas',
+        loadChildren: () => import('../info-mascotas/info-mascotas.module').then(m => m.InfoMascotasPageModule)
+      },
+      {
+        path: 'vacunas',
+        loadChildren: () => import('../vacunas/vacunas.module').then(m => m.VacunasPageModule)
+      },
+      {
+        path: 'citas-vet',
+        loadChildren: () => import('../citas-vet/citas-vet.module').then(m => m.CitasVetPageModule)
+      },
+      {
         path: 'estadisticas',
         loadChildren: () => import('../estadisticas/estadisticas.module').then(m => m.EstadisticasPageModule)
       },
