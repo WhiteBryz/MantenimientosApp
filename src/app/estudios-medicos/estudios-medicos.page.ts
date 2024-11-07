@@ -59,7 +59,7 @@ export class EstudiosMedicosPage {
 
   async Agregar() {
     if (this.valorTipo && this.valorFecha) {
-      const id = parseInt(Date.now().toString());
+      const id = Math.abs(parseInt((Date.now() % 2147483647).toString()));
       this.estudios.push({
         id: id,
         tipo: this.valorTipo,
@@ -134,7 +134,6 @@ export class EstudiosMedicosPage {
   async scheduleNotifications(date: Date, title: string, body: string, id: number) {
     try {
       const notificationDate = new Date(date);
-      console.log(notificationDate);
 
       await LocalNotifications.schedule({
         notifications: [
