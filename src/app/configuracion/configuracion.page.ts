@@ -6,14 +6,7 @@ import { ToastController, ModalController } from '@ionic/angular';
 @Component({
   selector: 'app-configuracion',
   template: `
-    <ion-header>
-      <ion-toolbar>
-        <ion-buttons slot="start">
-          <ion-menu-button></ion-menu-button>
-        </ion-buttons>
-        <ion-title>Configuración</ion-title>
-      </ion-toolbar>
-    </ion-header>
+    <app-custom-header pageTitle="Configuración"></app-custom-header>
 
     <ion-content class="ion-padding">
       <ion-list>

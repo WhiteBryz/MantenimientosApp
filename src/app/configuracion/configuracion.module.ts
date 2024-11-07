@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { ConfiguracionPageRoutingModule } from './configuracion-routing.module';
 import { ConfiguracionPage, CuentaModalComponent, EstiloModalComponent, MenuVisibilityModalComponent } from './configuracion.page';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   imports: [
@@ -11,7 +12,8 @@ import { ConfiguracionPage, CuentaModalComponent, EstiloModalComponent, MenuVisi
     FormsModule,
     ReactiveFormsModule,
     IonicModule,
-    ConfiguracionPageRoutingModule
+    ConfiguracionPageRoutingModule,
+    SharedModule
   ],
   declarations: [
     ConfiguracionPage,
