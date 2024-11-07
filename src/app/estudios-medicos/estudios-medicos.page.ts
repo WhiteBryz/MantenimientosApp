@@ -59,7 +59,7 @@ export class EstudiosMedicosPage {
 
   async Agregar() {
     if (this.valorTipo && this.valorFecha) {
-      const id = Date.now();
+      const id = parseInt(Date.now().toString());
       this.estudios.push({
         id: id,
         tipo: this.valorTipo,
