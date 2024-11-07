@@ -1,4 +1,5 @@
 import { Component} from '@angular/core';
+import { LocalNotifications } from '@capacitor/local-notifications';
 
 @Component({
   selector: 'app-citas-vet',
@@ -7,7 +8,7 @@ import { Component} from '@angular/core';
 })
 export class CitasVetPage{
   valorNombreMasc = '';
-  valorFecha = '';
+  valorFecha: Date | null = null;
   valorMotivo = '';
   valorResultado = '';
   valorNotas = '';
@@ -21,7 +22,7 @@ export class CitasVetPage{
     id: number;
     idMascota: number,
     nombreMasc: string,
-    fecha: string,
+    fecha: Date,
     motivo: string,
     resultado: string,
     notas: string,
@@ -47,15 +48,21 @@ export class CitasVetPage{
     this.resetForm();
   }
 
-  Eliminar(i: number) {
+  async Eliminar(i: number) {
     if (confirm('¿Estás seguro de eliminar esta cita?')){
-    this.citas.splice(i, 1);
-    localStorage.setItem('citas', JSON.stringify(this.citas));
+      if (this.citas[i].alerta) {
+        await this.cancelNotification(this.citas[i].id);
+      }
+
+      this.citas.splice(i, 1);
+      localStorage.setItem('citas', JSON.stringify(this.citas));
     }
   }
 
-  Agregar(){
+  async Agregar(){
     if (this.valorNombreMasc && this.valorFecha && this.valorMotivo && this.valorResultado && this.valorAlerta) {
+      const id = Math.abs(parseInt((Date.now() % 2147483647).toString()));
+
       this.citas.push({
         id: Date.now(),
         idMascota: this.posicion,
@@ -66,6 +73,11 @@ export class CitasVetPage{
         notas: this.valorNotas || 'Sin notas',
         alerta: this.valorAlerta
       });
+
+      if (this.valorAlerta) {
+        await this.scheduleNotifications(this.valorFecha, this.valorNombreMasc, `Cita con el veterinario para ${this.valorNombreMasc}`, id);
+      }
+
       localStorage.setItem('citas', JSON.stringify(this.citas));
       this.closeModal();
     }
@@ -74,8 +86,12 @@ export class CitasVetPage{
     }
   }
 
-  Actualizar(){
+  async Actualizar(){
     if(this.valorNombreMasc && this.valorFecha && this.valorMotivo && this.valorResultado && this.valorAlerta !== null){
+      if (this.citas[this.posicion].alerta) {
+        await this.cancelNotification(this.citas[this.posicion].id);
+      }
+
       this.citas[this.posicion] = {
         id: this.citas[this.posicion].id,
         idMascota: this.posicion,
@@ -86,6 +102,11 @@ export class CitasVetPage{
         notas: this.valorNotas || 'Sin notas',
         alerta: this.valorAlerta
       };
+
+      if (this.valorAlerta) {
+        await this.scheduleNotifications(this.valorFecha, this.valorNombreMasc, `Cita con el veterinario para ${this.valorNombreMasc}`, this.citas[this.posicion].id);
+      }
+
       localStorage.setItem('citas', JSON.stringify(this.citas));
       this.closeModal();
     }
@@ -111,10 +132,39 @@ export class CitasVetPage{
 
   private resetForm(){
     this.valorNombreMasc = '';
-    this.valorFecha = '';
+    this.valorFecha = null;
     this.valorMotivo = '';
     this.valorResultado = '';
     this.valorNotas = '';
     this.valorAlerta = false;
+  }
+
+  async scheduleNotifications(date: Date, title: string, body: string, id: number) {
+    try {
+      const notificationDate = new Date(date);
+
+      await LocalNotifications.schedule({
+        notifications: [
+          {
+            title,
+            body,
+            id: id,
+            schedule: { at: notificationDate },
+            sound: "default",
+            smallIcon: "ic_launcher"
+          }
+        ]
+      });
+    } catch (e) {
+      alert(e);
+    }
+  }
+
+  async cancelNotification(id: number) {
+    try {
+      await LocalNotifications.cancel({ notifications: [{ id: id }] });
+    } catch (e) {
+      alert(e);
+    }
   }
 }

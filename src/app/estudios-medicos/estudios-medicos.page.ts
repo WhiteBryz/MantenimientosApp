@@ -12,7 +12,7 @@ export class EstudiosMedicosPage {
   valorTipo = '';
   valorFecha: Date | null = null;
   valorFechaProximaCita: Date | null = null;
-  valorAlerta = '';
+  valorAlerta: boolean = false;
 
   isModalOpen: boolean = false;
   actualizarBoton: boolean = false;
@@ -22,7 +22,8 @@ export class EstudiosMedicosPage {
     id: number,
     tipo: string,
     fecha: Date,
-    fechaProximaCita: Date | null
+    fechaProximaCita: Date | null,
+    alerta: boolean
   }[] = [];
 
   posicion: number = 0;
@@ -45,11 +46,13 @@ export class EstudiosMedicosPage {
 
   async Eliminar(i: number) {
     if (confirm('¿Deseas eliminar este seguro?')) {
-      const id = this.estudios[i].id;
-      await this.cancelNotification(id);
-      if (this.estudios[i].fechaProximaCita) {
-        const next_id = id + 1;
-        await this.cancelNotification(next_id);
+      if (this.estudios[i].alerta) {
+        const id = this.estudios[i].id;
+        await this.cancelNotification(id);
+        if (this.estudios[i].fechaProximaCita) {
+          const next_id = id + 1;
+          await this.cancelNotification(next_id);
+        }
       }
 
       this.estudios.splice(i, 1);
@@ -64,11 +67,12 @@ export class EstudiosMedicosPage {
         id: id,
         tipo: this.valorTipo,
         fecha: this.valorFecha,
-        fechaProximaCita: (this.valorFechaProximaCita || null)
+        fechaProximaCita: (this.valorFechaProximaCita || null),
+        alerta: this.valorAlerta
       });
       localStorage.setItem('estudios', JSON.stringify(this.estudios));
       
-      if (this.valorAlerta === "Si") {
+      if (this.valorAlerta) {
         await this.scheduleNotifications(this.valorFecha, this.valorTipo, "Estudio agendado para este momento.", id);
 
         if (this.valorFechaProximaCita) {
@@ -86,23 +90,28 @@ export class EstudiosMedicosPage {
   async Actualizar() {
     if (this.valorTipo && this.valorFecha) {
       const id = this.estudios[this.posicion].id;
-      await this.cancelNotification(id);
-      if (this.estudios[this.posicion].fechaProximaCita) {
-        const next_id = id + 1;
-        await this.cancelNotification(next_id);
+      const next_id = id + 1;
+
+      if (this.estudios[this.posicion].alerta) {
+        await this.cancelNotification(id);
+        if (this.estudios[this.posicion].fechaProximaCita) {
+          await this.cancelNotification(next_id);
+        }
       }
 
       this.estudios[this.posicion] = {
         id: this.estudios[this.posicion].id,
         tipo: this.valorTipo,
         fecha: this.valorFecha,
-        fechaProximaCita: this.valorFechaProximaCita
+        fechaProximaCita: this.valorFechaProximaCita,
+        alerta: this.valorAlerta
       };
 
-      await this.scheduleNotifications(this.valorFecha, this.valorTipo, "Estudio agendado para este momento.", id);
-      if (this.valorFechaProximaCita) {
-        const next_id = id + 1;
-        await this.scheduleNotifications(this.valorFecha, this.valorTipo, "Estudio agendado para este momento.", next_id);
+      if (this.valorAlerta) {        
+        await this.scheduleNotifications(this.valorFecha, this.valorTipo, "Estudio agendado para este momento.", id);
+        if (this.valorFechaProximaCita) {
+          await this.scheduleNotifications(this.valorFecha, this.valorTipo, "Estudio agendado para este momento.", next_id);
+        }
       }
 
       localStorage.setItem('estudios', JSON.stringify(this.estudios));

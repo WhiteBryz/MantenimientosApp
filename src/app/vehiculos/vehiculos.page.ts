@@ -1,4 +1,5 @@
 import { Component} from '@angular/core';
+import { LocalNotifications } from '@capacitor/local-notifications';
 
 @Component({
   selector: 'app-vehiculos',
@@ -7,8 +8,8 @@ import { Component} from '@angular/core';
 })
 export class VehiculosPage {
   valorDescripcion = '';
-  valorFechaHora = '';
-  valorFechaProx = '';
+  valorFechaHora: Date | null = null;
+  valorFechaProx: Date | null = null;
   valorKilometraje = '';
   valorCosto = '';
   valorNotas = '';
@@ -21,12 +22,12 @@ export class VehiculosPage {
   mantenimientos: {
     id: number;
     descripcion: string,
-    fechaHora: string,
-    fechaProx: string,
+    fechaHora: Date,
+    fechaProx: Date,
     kilometraje: number,
     costo: number,
     notas: string,
-    alerta: boolean,
+    alerta: boolean
   }[] = [];
 
   posicion: number = 0;
@@ -37,7 +38,7 @@ export class VehiculosPage {
     if (mantenimientosLocal) {
       this.mantenimientos = JSON.parse(mantenimientosLocal);
     }
-   }
+  }
 
   openModal() {
     this.isModalOpen = true;
@@ -48,25 +49,45 @@ export class VehiculosPage {
     this.resetForm();
   }
 
-  Eliminar(i: number) {
+  async Eliminar(i: number) {
     if (confirm('¿Deseas eliminar este mantenimiento?')) {
+      const id = this.mantenimientos[i].id;
+      const next_id = id + 1;
+
+      if (this.mantenimientos[i].alerta) {
+        await this.cancelNotification(id);
+        await this.cancelNotification(next_id);
+      }
+
       this.mantenimientos.splice(i, 1);
       localStorage.setItem('mantenimientos', JSON.stringify(this.mantenimientos));
     }
   }
 
-  Agregar(){
+  async Agregar(){
     if (this.valorDescripcion && this.valorFechaHora && this.valorFechaProx && this.valorKilometraje && this.valorCosto && this.valorAlerta) {
+      const id = Math.abs(parseInt((Date.now() % 2147483647).toString()));
+      const next_id = id + 1;
+
+      const fechaProxima = new Date(this.valorFechaProx);
+      fechaProxima.setHours(0, 0, 0, 0);
+
       this.mantenimientos.push({
-        id: Date.now(),
+        id: id,
         descripcion: this.valorDescripcion,
         fechaHora: this.valorFechaHora,
-        fechaProx: this.valorFechaProx,
+        fechaProx: fechaProxima,
         kilometraje: parseInt(this.valorKilometraje),
         costo: parseInt(this.valorCosto),
         notas: this.valorNotas || 'Sin notas',
         alerta: this.valorAlerta
       });
+
+      if (this.valorAlerta) {
+        await this.scheduleNotifications(this.valorFechaHora, "Mantenimiento de Vehículo", this.valorDescripcion, id);
+        await this.scheduleNotifications(fechaProxima, "Mantenimiento de Vehículo", this.valorDescripcion, next_id);
+      }
+
       localStorage.setItem('mantenimientos', JSON.stringify(this.mantenimientos));
       this.closeModal();
     }
@@ -75,18 +96,34 @@ export class VehiculosPage {
     }
   }
 
-  Actualizar(){
+  async Actualizar(){
     if (this.valorDescripcion && this.valorFechaHora && this.valorFechaProx && this.valorKilometraje && this.valorCosto && this.valorAlerta) {
+      const id = this.mantenimientos[this.posicion].id;
+      const next_id = id + 1;
+
+      if (this.mantenimientos[this.posicion].alerta) {
+        await this.cancelNotification(id);
+        await this.cancelNotification(next_id);
+      }
+
+      const fechaProxima = new Date(this.valorFechaProx);
+      fechaProxima.setHours(0, 0, 0, 0);
+
       this.mantenimientos[this.posicion] = {
-        id: this.mantenimientos[this.posicion].id,
+        id: id,
         descripcion: this.valorDescripcion,
         fechaHora: this.valorFechaHora,
-        fechaProx: this.valorFechaProx,
+        fechaProx: fechaProxima,
         kilometraje: parseInt(this.valorKilometraje),
         costo: parseInt(this.valorCosto),
         notas: this.valorNotas || 'Sin notas',
         alerta: this.valorAlerta
       };
+
+      if (this.valorAlerta) {
+        await this.scheduleNotifications(this.valorFechaHora, "Mantenimiento de Vehículo", this.valorDescripcion, id);
+        await this.scheduleNotifications(fechaProxima, "Mantenimiento de Vehículo", this.valorDescripcion, next_id);
+      }
 
       localStorage.setItem('mantenimientos', JSON.stringify(this.mantenimientos));
       this.closeModal();
@@ -105,7 +142,7 @@ export class VehiculosPage {
     this.valorKilometraje = this.mantenimientos[i].kilometraje.toString();
     this.valorCosto = this.mantenimientos[i].costo.toString();
     this.valorNotas = this.mantenimientos[i].notas;
-    this.valorAlerta = this.mantenimientos[i].alerta;
+    this.valorAlerta = false;
 
     this.mostrarBoton = false;
     this.actualizarBoton = true;
@@ -114,11 +151,40 @@ export class VehiculosPage {
 
   private resetForm() {
     this.valorDescripcion = '';
-    this.valorFechaHora = '';
-    this.valorFechaProx = '';
+    this.valorFechaHora = null;
+    this.valorFechaProx = null;
     this.valorKilometraje = '';
     this.valorCosto = '';
     this.valorNotas = '';
     this.valorAlerta = false;
+  }
+
+  async scheduleNotifications(date: Date, title: string, body: string, id: number) {
+    try {
+      const notificationDate = new Date(date);
+
+      await LocalNotifications.schedule({
+        notifications: [
+          {
+            title,
+            body,
+            id: id,
+            schedule: { at: notificationDate },
+            sound: "default",
+            smallIcon: "ic_launcher"
+          }
+        ]
+      });
+    } catch (e) {
+      alert(e);
+    }
+  }
+
+  async cancelNotification(id: number) {
+    try {
+      await LocalNotifications.cancel({ notifications: [{ id: id }] });
+    } catch (e) {
+      alert(e);
+    }
   }
 }
