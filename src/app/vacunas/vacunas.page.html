@@ -5,7 +5,7 @@
     <ion-item *ngFor="let vacuna of vacunas; let i = index">
       <ion-card>
         <ion-card-header>
-          <ion-card-title>Mascota: {{vacuna.nombreMasc}}</ion-card-title>
+          <ion-card-title>{{vacuna.nombreMasc}}</ion-card-title>
         </ion-card-header>
         <ion-card-content>
           <p>Vacuna: {{vacuna.tipo}}</p>
@@ -26,7 +26,7 @@
 
   <ng-template #noTasks>
     <ion-text color="medium" class="ion-text-center">
-      <p>No hay información registrada.</p>
+      <p>No hay vacunas registradas.</p>
     </ion-text>
   </ng-template>
 
@@ -48,7 +48,7 @@
       </ion-header>
 
       <ion-content class="ion-padding">
-        <ion-title class="titulo">Registro de información de mascotas</ion-title>
+        <ion-title class="titulo">Registro de vacunas</ion-title>
 
         <ion-item class="form-item">
           <ion-label position="floating">Nombre de la mascota</ion-label>
