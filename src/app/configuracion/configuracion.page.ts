@@ -34,6 +34,15 @@ import { ToastController, ModalController } from '@ionic/angular';
           </ion-label>
           <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
         </ion-item>
+
+        <ion-item button (click)="openMenuVisibilityModal()">
+          <ion-icon slot="start" name="eye-outline"></ion-icon>
+          <ion-label>
+            <h2>Visibilidad del menú</h2>
+            <p>Configura qué categorías mostrar en el menú</p>
+          </ion-label>
+          <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
+        </ion-item>
       </ion-list>
     </ion-content>
   `
@@ -90,6 +99,12 @@ export class ConfiguracionPage implements OnInit {
       }
     });
 
+    return await modal.present();
+  }
+  async openMenuVisibilityModal() {
+    const modal = await this.modalController.create({
+      component: MenuVisibilityModalComponent
+    });
     return await modal.present();
   }
 }
@@ -258,5 +273,86 @@ export class EstiloModalComponent {
     this.modalController.dismiss({
       themeChanged: true
     });
+  }
+}
+
+@Component({
+  selector: 'app-menu-visibility-modal',
+  template: `
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Visibilidad del menú</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="dismiss()">Cerrar</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content class="ion-padding">
+      <ion-list>
+        <ion-item *ngFor="let category of menuCategories">
+          <ion-label>{{category.title}}</ion-label>
+          <ion-checkbox 
+            [(ngModel)]="category.visible" 
+            (ionChange)="updateVisibility()"
+          ></ion-checkbox>
+        </ion-item>
+      </ion-list>
+
+      <div class="ion-padding">
+        <ion-button expand="block" (click)="restoreDefaults()">
+          Restaurar valores predeterminados
+        </ion-button>
+      </div>
+    </ion-content>
+  `
+})
+
+export class MenuVisibilityModalComponent implements OnInit {
+  menuCategories: any[] = [];
+
+  constructor(
+    private modalController: ModalController,
+    private toastController: ToastController
+  ) { }
+
+  ngOnInit() {
+    // Cargar configuración guardada o usar valores predeterminados
+    const savedConfig = localStorage.getItem('menuVisibility');
+    if (savedConfig) {
+      this.menuCategories = JSON.parse(savedConfig);
+    } else {
+      // Usar la misma estructura de pages pero agregando la propiedad visible
+      this.menuCategories = [
+        { title: 'Inicio', visible: true },
+        { title: 'Hogar', visible: true },
+        { title: 'Vehículos', visible: true },
+        { title: 'Salud personal', visible: true },
+        { title: 'Mascotas', visible: true },
+        { title: 'Estadísticas', visible: true },
+        { title: 'Configuración', visible: true }
+      ];
+    }
+  }
+
+  async updateVisibility() {
+    localStorage.setItem('menuVisibility', JSON.stringify(this.menuCategories));
+    const toast = await this.toastController.create({
+      message: 'Configuración guardada',
+      duration: 2000,
+      color: 'success'
+    });
+    toast.present();
+    // Emitir evento para actualizar el menú
+    window.dispatchEvent(new CustomEvent('menuConfigUpdated'));
+  }
+
+  async restoreDefaults() {
+    this.menuCategories.forEach(category => category.visible = true);
+    this.updateVisibility();
+  }
+
+  dismiss() {
+    this.modalController.dismiss();
   }
 }

@@ -17,32 +17,38 @@ export class SideMenuPage implements OnInit {
     {
       title: 'Inicio',
       url: './home',
-      icon: 'home-outline'
+      icon: 'home-outline',
+      hidden: false
     },
     {
       title: 'Hogar',
       url: './hogar',
-      icon: 'hammer-outline'
+      icon: 'hammer-outline',
+      hidden: false
     },
     {
       title: 'Vehículos',
       url: './vehiculos',
-      icon: 'car-sport-outline'
+      icon: 'car-sport-outline',
+      hidden: false
     },
     {
       title: 'Salud personal',
       url: './',
       icon: 'heart-circle-outline',
+      hidden: false,
       childs: [
         {
           title: 'Seguros de Salud',
           url: './seguros-salud',
-          icon: ''
+          icon: '',
+          hidden: false
         },
         {
           title: 'Estudios Médicos',
           url: './estudios-medicos',
-          icon: ''
+          icon: '',
+          hidden: false
         }
       ]
     },
@@ -50,35 +56,42 @@ export class SideMenuPage implements OnInit {
       title: 'Mascotas',
       url: './mascotas',
       icon: 'paw-outline',
+      hidden: false,
       childs: [
         {
           title: 'Información general',
           url: './info-mascotas',
-          icon: ''
+          icon: '',
+          hidden: false
         },
         {
           title: 'Vacunas',
           url: './vacunas',
-          icon: ''
+          icon: '',
+          hidden: false
         },
         {
-        title: 'Citas al veterinario',
-        url: './citas-vet',
-        icon: ''
+          title: 'Citas al veterinario',
+          url: './citas-vet',
+          icon: '',
+          hidden: false
         }
       ]
     },
     {
       title: 'Estadísticas',
       url: './estadisticas',
-      icon: 'bar-chart-outline'
+      icon: 'bar-chart-outline',
+      hidden: false
     },
     {
       title: 'Configuración',
       url: './configuracion',
-      icon: 'options-outline'
+      icon: 'options-outline',
+      hidden: false
     },
   ];
+
 
   constructor(
     public alertController: AlertController,
@@ -94,7 +107,6 @@ export class SideMenuPage implements OnInit {
   }
 
   toggleSubmenu(index: number) {
-    // Use an optional chaining assignment to initialize if undefined
     this.subMenuOpen[index] = !this.subMenuOpen[index] || false;
   }
   
@@ -122,6 +134,12 @@ export class SideMenuPage implements OnInit {
   }
 
   ngOnInit() {
+    this.applyMenuVisibility();
+
+    // Escuchar cambios en la configuración del menú
+    window.addEventListener('menuConfigUpdated', () => {
+      this.applyMenuVisibility();
+    });
     return;
   }
 
@@ -130,4 +148,14 @@ export class SideMenuPage implements OnInit {
     this.menu.toggle();
   }
 
+  applyMenuVisibility() {
+    const savedConfig = localStorage.getItem('menuVisibility');
+    if (savedConfig) {
+      const visibilityConfig = JSON.parse(savedConfig);
+      this.pages = this.pages.map(page => ({
+        ...page,
+        hidden: !visibilityConfig.find((c: any) => c.title === page.title)?.visible
+      }));
+    }
+  }
 }
