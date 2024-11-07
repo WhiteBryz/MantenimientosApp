@@ -32,7 +32,8 @@
               <ion-list *ngIf="subMenuOpen[i]" class="submenu">
                 <ion-menu-toggle auto-hide="false">
                   <ion-item *ngFor="let child of page.childs" (click)="ChangeIndexSelected(i)" routerDirection="root"
-                    [routerLink]="[child.url]" lines="none" detail="false">
+                    [routerLink]="[child.url]" lines="none" detail="false" class="ion-item-child">
+                    <ion-icon slot="start" [name]="child.icon" [src]="child.icon"></ion-icon>
                     <ion-label>{{ child.title }}</ion-label>
                   </ion-item>
                 </ion-menu-toggle>

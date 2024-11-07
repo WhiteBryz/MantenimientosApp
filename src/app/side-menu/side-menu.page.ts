@@ -41,13 +41,13 @@ export class SideMenuPage implements OnInit {
         {
           title: 'Seguros de Salud',
           url: './seguros-salud',
-          icon: '',
+          icon: 'document-text-outline',
           hidden: false
         },
         {
           title: 'Estudios Médicos',
           url: './estudios-medicos',
-          icon: '',
+          icon: 'id-card-outline',
           hidden: false
         }
       ]
@@ -61,19 +61,19 @@ export class SideMenuPage implements OnInit {
         {
           title: 'Información general',
           url: './info-mascotas',
-          icon: '',
+          icon: '../assets/icon/pet-w.svg',
           hidden: false
         },
         {
           title: 'Vacunas',
           url: './vacunas',
-          icon: '',
+          icon: '../assets/icon/injection-w.svg',
           hidden: false
         },
         {
           title: 'Citas al veterinario',
           url: './citas-vet',
-          icon: '',
+          icon: '../assets/icon/veterinarian-w.svg',
           hidden: false
         }
       ]
@@ -109,7 +109,7 @@ export class SideMenuPage implements OnInit {
   toggleSubmenu(index: number) {
     this.subMenuOpen[index] = !this.subMenuOpen[index] || false;
   }
-  
+
 
   async SingOut() {
     const alert = await this.alertController.create({
@@ -124,8 +124,8 @@ export class SideMenuPage implements OnInit {
         {
           text: 'Si deseo salir',
           handler: () => {
-              this.authService.logout();
-              this.router.navigate(['/login']);
+            this.authService.logout();
+            this.router.navigate(['/login']);
           }
         }
       ]

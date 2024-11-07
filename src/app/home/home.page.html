@@ -1,5 +1,111 @@
 <app-custom-header pageTitle="Página de Inicio"></app-custom-header>
 
 <ion-content class="ion-padding">
+    <ion-segment [scrollable]="true" value="heart" [(ngModel)]="selectedCategory" (ionChange)="filtrarTareas()">
+        <ion-segment-button value="all">
+            <ion-icon name="grid-outline"></ion-icon>
+        </ion-segment-button>
+        <ion-segment-button value="tareasHogar">
+            <ion-icon name="hammer-outline"></ion-icon>
+        </ion-segment-button>
+        <ion-segment-button value="mantenimiento">
+            <ion-icon name="car-sport-outline"></ion-icon>
+        </ion-segment-button>
+        <ion-segment-button value="segurosSalud">
+            <ion-icon name="document-text-outline"></ion-icon>
+        </ion-segment-button>
+        <ion-segment-button value="estudiosMedicos">
+            <ion-icon name="id-card-outline"></ion-icon>
+        </ion-segment-button>
+        <ion-segment-button value="vacunas">
+            <ion-icon src="../../assets/icon/injection-b.svg"></ion-icon>
+        </ion-segment-button>
+        <ion-segment-button value="citasVet">
+            <ion-icon src="../../assets/icon/veterinarian-b.svg"></ion-icon>
+        </ion-segment-button>
+    </ion-segment>
 
+    <!-- Lista de Tareas -->
+    <ion-list>
+        <ion-card *ngFor="let task of filteredTasks">
+            <!-- Citas Veterinario -->
+            <ng-container *ngIf="task.nombreMasc && task.motivo">
+                <ion-card-header>
+                    <ion-card-title>Veterinario - {{ task.nombreMasc }}</ion-card-title>
+                </ion-card-header>
+                <ion-card-content>
+                    <p><strong>Motivo:</strong> {{ task.motivo }}</p>
+                    <p><strong>Fecha:</strong> {{ task.fecha | date:'short' }}</p>
+                    <p><strong>Resultado:</strong> {{ task.resultado }}</p>
+                    <p><strong>Notas:</strong> {{ task.notas }}</p>
+                </ion-card-content>
+            </ng-container>
+
+            <!-- Estudios Médicos -->
+            <ng-container *ngIf="task.tipo && task.fecha && task.fechaProximaCita !== undefined">
+                <ion-card-header>
+                    <ion-card-title>Estudio Médico - {{ task.tipo }}</ion-card-title>
+                </ion-card-header>
+                <ion-card-content>
+                    <p><strong>Fecha:</strong> {{ task.fecha | date:'short' }}</p>
+                    <p><strong>Próxima Cita:</strong> {{ task.fechaProximaCita ? (task.fechaProximaCita | date:'short')
+                        : 'N/A' }}</p>
+                </ion-card-content>
+            </ng-container>
+
+            <!-- Tareas Hogar -->
+            <ng-container *ngIf="task.descripcion && task.frecuencia">
+                <ion-card-header>
+                    <ion-card-title>Tarea Hogar</ion-card-title>
+                </ion-card-header>
+                <ion-card-content>
+                    <p><strong>Descripción:</strong> {{ task.descripcion }}</p>
+                    <p><strong>Fecha y Hora:</strong> {{ task.fechaHora | date:'short' }}</p>
+                    <p><strong>Frecuencia:</strong> {{ task.frecuencia }}</p>
+                    <p><strong>Estado:</strong> {{ task.estado }}</p>
+                    <p><strong>Notas:</strong> {{ task.notas }}</p>
+                    <p *ngIf="task.archivos?.length > 0"><strong>Archivos:</strong> {{ task.archivos.join(', ') }}</p>
+                </ion-card-content>
+            </ng-container>
+
+            <!-- Seguros de Salud -->
+            <ng-container *ngIf="task.tipoSeguro && task.fechaInicio">
+                <ion-card-header>
+                    <ion-card-title>Seguro de Salud - {{ task.tipoSeguro }}</ion-card-title>
+                </ion-card-header>
+                <ion-card-content>
+                    <p><strong>Fecha Inicio:</strong> {{ task.fechaInicio | date:'short' }}</p>
+                    <p><strong>Fecha Vencimiento:</strong> {{ task.fechaVencimiento | date:'short' }}</p>
+                    <p><strong>Proveedor:</strong> {{ task.proveedor }}</p>
+                    <p><strong>Notas:</strong> {{ task.notas }}</p>
+                </ion-card-content>
+            </ng-container>
+
+            <!-- Vacunas Mascota -->
+            <ng-container *ngIf="task.tipo && task.nombreMasc && task.fecha">
+                <ion-card-header>
+                    <ion-card-title>Vacuna - {{ task.tipo }}</ion-card-title>
+                </ion-card-header>
+                <ion-card-content>
+                    <p><strong>Mascota:</strong> {{ task.nombreMasc }}</p>
+                    <p><strong>Fecha:</strong> {{ task.fecha | date:'short' }}</p>
+                </ion-card-content>
+            </ng-container>
+
+            <!-- Mantenimientos Vehículo -->
+            <ng-container *ngIf="task.descripcion && task.kilometraje !== undefined">
+                <ion-card-header>
+                    <ion-card-title>Mantenimiento Vehículo</ion-card-title>
+                </ion-card-header>
+                <ion-card-content>
+                    <p><strong>Descripción:</strong> {{ task.descripcion }}</p>
+                    <p><strong>Fecha y Hora:</strong> {{ task.fechaHora | date:'short' }}</p>
+                    <p><strong>Próxima Fecha:</strong> {{ task.fechaProx | date:'short' }}</p>
+                    <p><strong>Kilometraje:</strong> {{ task.kilometraje }}</p>
+                    <p><strong>Costo:</strong> {{ task.costo | currency }}</p>
+                    <p><strong>Notas:</strong> {{ task.notas }}</p>
+                </ion-card-content>
+            </ng-container>
+        </ion-card>
+    </ion-list>
 </ion-content>
