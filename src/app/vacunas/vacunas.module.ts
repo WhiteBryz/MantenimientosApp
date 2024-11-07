@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { VacunasPageRoutingModule } from './vacunas-routing.module';
 
 import { VacunasPage } from './vacunas.page';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    VacunasPageRoutingModule
+    VacunasPageRoutingModule,
+    SharedModule
   ],
   declarations: [VacunasPage]
 })
