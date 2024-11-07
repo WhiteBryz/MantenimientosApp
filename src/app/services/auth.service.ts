@@ -4,8 +4,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export interface User {
     id: number;
     username: string;
-    storeName: string;
-    storePhotoUrl: string;
+    fullName: string;
 }
 
 @Injectable({
@@ -54,6 +53,39 @@ export class AuthService {
 
         users.push(newUser);
         localStorage.setItem('users', JSON.stringify(users));
+        return true;
+    }
+
+    updateUser(userData: any): boolean {
+        const users = JSON.parse(localStorage.getItem('users') || '[]');
+        const currentUser = this.currentUserValue;
+
+        if (!currentUser) return false;
+
+        const userIndex = users.findIndex((u: any) => u.id === currentUser.id);
+
+        if (userIndex === -1) return false;
+
+        // Verificar si el nuevo nombre de usuario ya existe en otro usuario
+        if (userData.username !== users[userIndex].username &&
+            users.some((u: any, index: number) => index !== userIndex && u.username === userData.username)) {
+            return false;
+        }
+
+        // Actualizar datos del usuario
+        users[userIndex] = {
+            ...users[userIndex],
+            ...userData,
+            id: currentUser.id // Mantener el ID original
+        };
+
+        localStorage.setItem('users', JSON.stringify(users));
+
+        // Actualizar el usuario actual en localStorage y en el BehaviorSubject
+        const { password, ...userWithoutPassword } = users[userIndex];
+        localStorage.setItem('currentUser', JSON.stringify(userWithoutPassword));
+        this.currentUserSubject.next(userWithoutPassword);
+
         return true;
     }
 
